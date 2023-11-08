@@ -3,3 +3,4 @@ pass.env
 .pytest_cache/ 
 htmlcov/
 .coverage
+sessions/

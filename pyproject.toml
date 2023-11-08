@@ -7,6 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+pyrogram = "^2.0.106"
+tgcrypto = "^1.2.5"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -25,7 +27,7 @@ mkdocstrings-python = "^1.7.3"
 [tool.pytest.ini_options]
 pythonpath = [".", "code"]
 # rodar testes comentados
-addopts = "--doctest-modules"
+# addopts = "--doctest-modules"
 
 [tool.isort]
 profile = "black"
