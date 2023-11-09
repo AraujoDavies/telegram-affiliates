@@ -1,1 +1,22 @@
-site_name: My Docs
+site_name: Telegram-Affiliates
+repo_url: https://github.com/AraujoDavies/telegram-affiliates
+repo_name: AraujoDavies/telegram-affiliates
+
+theme:
+  name: readthedocs # mkdocs, readthedocs, material
+  language: pt-br
+  logo: assets/beto.png
+  favicon: assets/beto.png
+
+markdown_extensions:
+  - attr_list  # para conseguir usar {} na imagem do index.md
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins: 
+- mkdocstrings: # documentar por meio das funções
+    handlers:
+      python:
+        paths: [code]
+
