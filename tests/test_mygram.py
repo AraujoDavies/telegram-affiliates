@@ -1,45 +1,79 @@
+import asyncio
+import os
+from code.main import MyTelegram
+
+import dotenv
 import pytest
 
+dotenv.load_dotenv()
 
-def test_session_que_nao_funciona(tele):
-    with pytest.raises(AttributeError) as exc_info:
-        tele(session_path='invalid')
-    assert 'The API key is required for new authorizations.' in str(
-        exc_info.value
+####### INIT FIXTURES #######
+
+
+@pytest.fixture  # dedicated fixture decorator that will do the right thing
+async def listar_id_dos_chats():
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    chats = await tele.listar_chats()
+    return chats
+
+
+@pytest.fixture  # dedicated fixture decorator that will do the right thing
+async def enviar_msg():
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    msg_info = await tele.enviar_msg('me', 'pytest - robozinho afiliates')
+    return msg_info
+
+
+@pytest.fixture  # dedicated fixture decorator that will do the right thing
+async def enviar_resultado():
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    msg_info = await tele.resultado_msg(
+        'me', id_msg.id, 'result - pytest - robozinho afiliates'
     )
+    return msg_info
 
 
-def test_session_que_esta_ok(tele_ok):
-    assert 'mygram.MyTelegram' in str(type(tele_ok))
+@pytest.fixture
+async def apagar_mensagem():
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    # delete retorna se deletar mesmo = 1 | se nao existir a mensagem = 0
+    apaga_msg = await tele.deletar_msg('me', id_msg.id)
+    apaga_resultado = await tele.deletar_msg('me', result.id)
+    return (apaga_msg, apaga_resultado)
 
 
-def test_listar_id_dos_chats(tele_ok):
-    chats = tele_ok.listar_chats()
-    assert (
-        len(chats) == 2
-        and len(chats[0]) > 1
-        and len(chats[0]) == len(chats[1])
-    )
+####### END FIXTURES #######
 
 
-def test_enviar_mensagem(tele_ok):
+def test_session_que_esta_ok(tele):
+    assert 'mygram.MyTelegram' in str(type(tele))
+
+
+@pytest.mark.asyncio
+async def test_listar_id_dos_chats(listar_id_dos_chats):
+    rets = await asyncio.gather(listar_id_dos_chats)
+    rets = rets[0].keys()
+    assert 'Me andme' in rets
+
+
+@pytest.mark.asyncio
+async def test_enviar_mensagem(enviar_msg):
     global id_msg   # global pois sera usada nos testes a seguir
-    id_msg = tele_ok.enviar_msg('me', 'pytest - robozinho afiliates')
+    id_msg = await asyncio.gather(enviar_msg)
+    id_msg = id_msg[0]
     assert type(id_msg.id) == int
 
 
-def test_enviar_resultado(tele_ok):
+@pytest.mark.asyncio
+async def test_enviar_resultado(enviar_resultado):
     global result
-    result = tele_ok.resultado_msg(
-        'me', id_msg.id, 'result - pytest - robozinho afiliates'
-    )
+    result = await asyncio.gather(enviar_resultado)
+    result = result[0]
     assert type(result.id) == int
 
 
-def test_apagar_mensagem(tele_ok):
-    assert (
-        tele_ok.deletar_msg('me', id_msg.id) == 1
-    )   # delete retorna se deletar mesmo = 1 | se nao existir a mensagem = 0
-    assert (
-        tele_ok.deletar_msg('me', result.id) == 1
-    )   # delete retorna se deletar mesmo = 1 | se nao existir a mensagem = 0
+@pytest.mark.asyncio
+async def test_deletar_msg(apagar_mensagem):
+    result = await asyncio.gather(apagar_mensagem)
+    result = result[0]
+    assert result == (1, 1)

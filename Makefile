@@ -46,3 +46,7 @@ test:
 .PHONY: docs
 docs:
 	poetry run mkdocs serve
+
+.PHONY: fast
+fast: 
+	poetry run uvicorn --app-dir $(CURDIR)/code main:app --reload

@@ -4,3 +4,6 @@ pass.env
 htmlcov/
 .coverage
 sessions/
+newtele.py
+testgram-flask.py
+.env
