@@ -5,7 +5,7 @@ from httpx import AsyncClient
 @pytest.mark.anyio
 async def test_healthecheck(client: AsyncClient):
     response = await client.get('/health')
-    assert response.json() == {'Healthcheck': 'OK'}
+    assert response.json() == {'healthcheck': 'OK'}
 
 
 @pytest.mark.anyio

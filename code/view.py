@@ -11,13 +11,13 @@ dotenv.load_dotenv()
 
 
 @app.get('/health')
-def hello():
-    return {'Healthcheck': 'OK'}
+def healthcheck():
+    return {'healthcheck': 'OK'}
 
 
 # test_envio
 @app.get('/teste-envio/{telegram_username}')
-async def teste_envio(telegram_username: str):
+async def teste_de_envio(telegram_username: str):
     try:
         session = os.getenv('ABSOLUTE_SESSION_PATH')
         tele = MyTelegram(session_path=session)
@@ -44,7 +44,7 @@ async def teste_envio(telegram_username: str):
 
 # listar_chats
 @app.post('/listar-chats')
-async def listar_chats():
+async def listar_todos_chats_do_usuario():
     try:
         session = os.getenv('ABSOLUTE_SESSION_PATH')
         tele = MyTelegram(session_path=session)
@@ -55,5 +55,36 @@ async def listar_chats():
 
 
 # enviar_mensagem
+@app.post('/enviar')
+async def enviar_mensagem():
+    try:
+        session = os.getenv('ABSOLUTE_SESSION_PATH')
+        tele = MyTelegram(session_path=session)
+        chats = await tele.enviar_msg('me', 'enviar-msg route')
+        return chats
+    except Exception as error:
+        return {'UNKNOW_ERROR': str(error)}
+
+
 # deletar_mensagem
-# enviar_mensagem_com_marcando
+@app.post('/deletar')
+async def deletar_mensagem():
+    try:
+        session = os.getenv('ABSOLUTE_SESSION_PATH')
+        tele = MyTelegram(session_path=session)
+        chats = await tele.deletar_msg('me', 1)
+        return chats
+    except Exception as error:
+        return {'UNKNOW_ERROR': str(error)}
+
+
+# enviar_mensagem_com_marcacao
+@app.post('/responder')
+async def enviar_respondendo_msg_anterior():
+    try:
+        session = os.getenv('ABSOLUTE_SESSION_PATH')
+        tele = MyTelegram(session_path=session)
+        chats = await tele.resultado_msg('me', 1, 'enviar-msg-mark')
+        return chats
+    except Exception as error:
+        return {'UNKNOW_ERROR': str(error)}
