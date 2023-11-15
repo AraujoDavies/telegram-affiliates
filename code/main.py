@@ -9,16 +9,16 @@ app = FastAPI()
 
 from view import *
 
-if __name__ == '__main2__':
-    session_from_db = 'valid'
-    # criar uma lista com as sessions existentes:
-    sessions_validas = os.listdir(os.getcwd() + '/code/sessions')
-    logging.warning('Sessões disponíves: \n%s', sessions_validas)
-    # verifica se a session do cara existe
-    #     if session_from_db + '.session' in sessions_validas:
-    session_from_db = 'sessions/' + session_from_db
+# if __name__ == '__main2__':
+# session_from_db = 'valid'
+# # criar uma lista com as sessions existentes:
+# sessions_validas = os.listdir(os.getcwd() + '/code/sessions')
+# logging.warning('Sessões disponíves: \n%s', sessions_validas)
+# # verifica se a session do cara existe
+# #     if session_from_db + '.session' in sessions_validas:
+# session_from_db = 'sessions/' + session_from_db
 #         tele = MyTelegram(session_path=session_from_db)
-#         # tele.listar_chats()
+#         tele.listar_chats()
 
 #         # tele_msg = tele.enviar_msg('me', 'pytest')
 

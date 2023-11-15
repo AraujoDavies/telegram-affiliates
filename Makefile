@@ -50,3 +50,7 @@ docs:
 .PHONY: fast
 fast: 
 	poetry run uvicorn --app-dir $(CURDIR)/code main:app --reload
+
+.PHONY: database
+database:
+	poetry run python code/db/init_db.py
