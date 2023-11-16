@@ -7,3 +7,4 @@ sessions/
 newtele.py
 testgram-flask.py
 .env
+/myqsl-data

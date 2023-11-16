@@ -10,7 +10,7 @@ from pyrogram.errors.exceptions.bad_request_400 import UsernameInvalid
 dotenv.load_dotenv()
 
 
-@app.get('/health')
+@app.get('/healthcheck')
 def healthcheck():
     return {'healthcheck': 'OK'}
 
