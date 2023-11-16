@@ -1,4 +1,4 @@
-fake_data = [
+fake_data_signais = [
     {
         'client_id': 1,
         'chat_id': 123,
@@ -64,5 +64,21 @@ fake_data = [
         'wait_sec_message3': 20,
         'message3': '✅💰🤑 JACKPOT 🤑💰✅',
         'last_message_info': 'text=resultado,datetime=2023-11-14 19:56:00,Chat_user=Type.Private',
+    },
+]
+
+
+fake_data_users = [
+    {
+        'email': 'admin1@admin.net',
+        'password': 'admin',
+    },
+    {
+        'email': 'admin2@admin.net',
+        'password': 'admin',
+    },
+    {
+        'email': 'admin3@admin.net',
+        'password': 'admin',
     },
 ]

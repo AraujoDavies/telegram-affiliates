@@ -1,11 +1,13 @@
 import enum
 import logging
 import os
+from datetime import datetime
 
 import dotenv
-from fake_data import fake_data
+from fake_data import fake_data_signais, fake_data_users
 from sqlalchemy import (
     Column,
+    DateTime,
     Enum,
     Integer,
     MetaData,
@@ -41,17 +43,29 @@ class Base(DeclarativeBase):
 
 
 class StatusDb(enum.Enum):
-    Ativo = 1
-    Desativo = 2
+    active = 1
+    disabled = 2
 
 
-sinais_table = Table(
-    'tbl_sinais',
+user_table = Table(
+    'tbl_users',
+    metadata,
+    Column('id', Integer, primary_key=True),
+    Column('status', Enum(StatusDb), default='active', nullable=False),
+    Column('email', String(80), nullable=False),
+    Column('password', String(30), nullable=False),
+    Column(
+        'create_datetime', DateTime, default=datetime.now(), nullable=False
+    ),
+)
+
+signais_table = Table(
+    'tbl_signals',
     metadata,
     Column('id', Integer, primary_key=True),
     Column('client_id', Integer, nullable=False),
     Column('chat_id', String(30), default='me', nullable=False),
-    Column('status', Enum(StatusDb), default='Ativo', nullable=False),
+    Column('status', Enum(StatusDb), default='active', nullable=False),
     Column('message_per_minute', Integer, default=1, nullable=False),
     Column('message1', Text),
     Column('wait_sec_message2', Integer, default=1, nullable=False),
@@ -71,10 +85,14 @@ if __name__ == '__main__':
     with engine.connect() as conn:
         conn.begin()
         try:
-            stmt = sinais_table.insert().values(fake_data)
-            conn.execute(stmt)
+            populate_signais = signais_table.insert().values(fake_data_signais)
+            populate_users = user_table.insert().values(fake_data_users)
+            conn.execute(populate_signais)
+            conn.execute(populate_users)
             conn.commit()
             logging.warning('Tabela populada com sucesso.')
-        except:
+        except Exception as error:
             conn.rollback()
-            logging.warning('Erro ao popular tabela.')
+            logging.warning(
+                'Erro ao popular tabela.\nMensagem de erro: %s', error
+            )
