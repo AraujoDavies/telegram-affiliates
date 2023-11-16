@@ -12,21 +12,21 @@ dotenv.load_dotenv()
 
 @pytest.fixture  # dedicated fixture decorator that will do the right thing
 async def listar_id_dos_chats():
-    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH') + 'valid')
     chats = await tele.listar_chats()
     return chats
 
 
 @pytest.fixture  # dedicated fixture decorator that will do the right thing
 async def enviar_msg():
-    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH') + 'valid')
     msg_info = await tele.enviar_msg('me', 'pytest - robozinho afiliates')
     return msg_info
 
 
 @pytest.fixture  # dedicated fixture decorator that will do the right thing
 async def enviar_resultado():
-    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH') + 'valid')
     msg_info = await tele.resultado_msg(
         'me', id_msg.id, 'result - pytest - robozinho afiliates'
     )
@@ -35,7 +35,7 @@ async def enviar_resultado():
 
 @pytest.fixture
 async def apagar_mensagem():
-    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH'))
+    tele = MyTelegram(os.getenv('ABSOLUTE_SESSION_PATH') + 'valid')
     # delete retorna se deletar mesmo = 1 | se nao existir a mensagem = 0
     apaga_msg = await tele.deletar_msg('me', id_msg.id)
     apaga_resultado = await tele.deletar_msg('me', result.id)
