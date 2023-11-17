@@ -26,13 +26,11 @@ def healthcheck():
 #     return os.getenv('ABSOLUTE_SESSION_PATH')
 
 # test_envio
-@app.get('/teste-envio/{telegram_username}/{session_file}')
-async def teste_de_envio(telegram_username: str, session_file: str):
+@app.get('/teste-envio/{session_file}')
+async def teste_de_envio_e_session(session_file: str):
     """Invokes send message in telegram api.
 
     Args:
-        telegram_username: who will receive the message, (me = my own telegram).
-
         session_file: some session in sessions path.
 
     Returns:
@@ -45,7 +43,7 @@ async def teste_de_envio(telegram_username: str, session_file: str):
             tele = MyTelegram(session_path=session)
 
             chats = await tele.enviar_msg(
-                telegram_username,
+                'me',
                 'Oi, teste efetuado com sucesso atráves da API-AFFILIATES',
             )
 
@@ -62,8 +60,8 @@ async def teste_de_envio(telegram_username: str, session_file: str):
         return {'SESSION_ERROR': 'SESSION FILE DOESNT EXISTS'}
     except AttributeError as error:   # SESSION INVALIDA
         return {'SESSION_ERROR': str(error)}
-    except UsernameInvalid as error:   # CHAT INVALIDO
-        return {'CHAT_ERROR': str(error)}
+    # except UsernameInvalid as error:   # CHAT INVALIDO
+    #     return {'CHAT_ERROR': str(error)}
     # except ValueError as error: #
     #     return {"SERVER_ERROR": "Servidor falhou ao processar solicitação"}
     except Exception as error:

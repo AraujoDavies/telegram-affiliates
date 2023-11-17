@@ -12,7 +12,7 @@ async def test_healthecheck(client: AsyncClient):
 
 @pytest.mark.anyio
 async def test_route_teste_envio(client: AsyncClient):
-    response = await client.get('/teste-envio/me/valid')
+    response = await client.get('/teste-envio/valid')
     assert response.status_code == 200
     assert (
         'Oi, teste efetuado com sucesso atráves da API-AFFILIATES'
@@ -20,19 +20,19 @@ async def test_route_teste_envio(client: AsyncClient):
     )
 
 
-@pytest.mark.anyio
-async def test_route_envio_chat_error(client: AsyncClient):
-    response = await client.get('/teste-envio/me2/valid')
-    assert response.status_code == 200
-    assert (
-        'Telegram says: [400 USERNAME_INVALID] - The username is invalid'
-        in response.json()['CHAT_ERROR']
-    )
+# @pytest.mark.anyio
+# async def test_route_envio_chat_error(client: AsyncClient):
+#     response = await client.get('/teste-envio/valid')
+#     assert response.status_code == 200
+#     assert (
+#         'Telegram says: [400 USERNAME_INVALID] - The username is invalid'
+#         in response.json()['CHAT_ERROR']
+#     )
 
 
 @pytest.mark.anyio
 async def test_route_envio_com_invalid_session(client: AsyncClient):
-    response = await client.get('/teste-envio/me/invalid')
+    response = await client.get('/teste-envio/invalid')
     assert response.status_code == 200
     assert (
         'The API key is required for new authorizations. More info: https://docs.pyrogram.org/start/auth'
@@ -42,7 +42,7 @@ async def test_route_envio_com_invalid_session(client: AsyncClient):
 
 @pytest.mark.anyio
 async def test_route_envio_com_inexistente_session(client: AsyncClient):
-    response = await client.get('/teste-envio/me/inexistente')
+    response = await client.get('/teste-envio/inexistente')
     assert response.status_code == 200
     assert 'SESSION FILE DOESNT EXISTS' == response.json()['SESSION_ERROR']
 
