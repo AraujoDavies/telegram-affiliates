@@ -139,7 +139,7 @@ async def test_route_responder_msg_com_inexistente_session(
         json={
             'session_file': 'valid1321',
             'chat_id': 'me',
-            'message_id': msg_to_delete1,
+            'message_id': msg_to_delete1,  # to reply
             'message_text': 'reply',
         },
     )
@@ -153,7 +153,7 @@ async def test_route_responder_msg_com_invalid_session(client: AsyncClient):
         json={
             'session_file': 'invalid',
             'chat_id': 'me',
-            'message_id': msg_to_delete1,
+            'message_id': msg_to_delete1,  # to reply
             'message_text': 'reply',
         },
     )
@@ -170,7 +170,7 @@ async def test_route_deletar_msg_com_inexistente_session(client: AsyncClient):
         json={
             'session_file': 'valid123',
             'chat_id': 'me',
-            'message_id': msg_to_delete1,  # to reply
+            'message_id': msg_to_delete1,
         },
     )
     assert 'SESSION FILE DOESNT EXISTS' == response.json()['SESSION_ERROR']
@@ -183,7 +183,7 @@ async def test_route_deletar_msg_com_invalid_session(client: AsyncClient):
         json={
             'session_file': 'invalid',
             'chat_id': 'me',
-            'message_id': msg_to_delete1,  # to reply
+            'message_id': msg_to_delete1,
         },
     )
     assert (
